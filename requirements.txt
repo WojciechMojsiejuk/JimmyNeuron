@@ -1,1 +1,3 @@
 Pyforms
+pandas
+numpy

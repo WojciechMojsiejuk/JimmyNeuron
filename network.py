@@ -159,6 +159,8 @@ def load_data_from_csv(file_path):
 # dataframe_testowy
 
 if __name__=="__main__":
-    network=Network([2,3,1])
+
     dataset=load_data_from_csv("iris.csv")
     print(dataset)
+
+    network=Network([2,3,1])
