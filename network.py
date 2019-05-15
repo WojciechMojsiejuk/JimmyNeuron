@@ -153,6 +153,16 @@ def load_data_from_csv(file_path):
     #dataframe
     data = pd.read_csv(file_path)
 
+def extract_from_dataframe(dataframe):
+    """Returns network's input and output layer dimentions
+    in that order"""
+    x = dataframe.shape[1]
+    target_values = dataframe[dataframe.columns[x-1]].tolist()
+    unique_list = []
+    for value in target_values:
+        if value not in unique_list:
+            unique_list.append(value)
+    return x-1, len(unique_list)
 
 dataframe_treningowy
 dataframe_testowy
