@@ -151,11 +151,14 @@ def sigmoid_bipolar_prime(z):
 
 def load_data_from_csv(file_path):
     #dataframe
-    data = pd.read_csv(file_path)
+    data = pd.read_csv(file_path, index_col=0)
+    return data
 
-
-dataframe_treningowy
-dataframe_testowy
+#
+# dataframe_treningowy
+# dataframe_testowy
 
 if __name__=="__main__":
     network=Network([2,3,1])
+    dataset=load_data_from_csv("iris.csv")
+    print(dataset)
