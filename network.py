@@ -12,6 +12,7 @@ and omits many desirable features.
 #### Libraries
 # Standard library
 import random
+import math
 
 # Third-party libraries
 import numpy as np
@@ -54,11 +55,11 @@ class Network(object):
         tracking progress, but slows things down substantially."""
         if test_data: n_test = len(test_data)
         n = len(training_data)
-        for j in xrange(epochs):
+        for j in range(epochs):
             random.shuffle(training_data)
             mini_batches = [
                 training_data[k:k+mini_batch_size]
-                for k in xrange(0, n, mini_batch_size)]
+                for k in range(0, n, mini_batch_size)]
             for mini_batch in mini_batches:
                 self.update_mini_batch(mini_batch, eta)
             if test_data:
@@ -109,7 +110,7 @@ class Network(object):
         # second-last layer, and so on.  It's a renumbering of the
         # scheme in the book, used here to take advantage of the fact
         # that Python can use negative indices in lists.
-        for l in xrange(2, self.num_layers):
+        for l in range(2, self.num_layers):
             z = zs[-l]
             sp = sigmoid_prime(z)
             delta = np.dot(self.weights[-l+1].transpose(), delta) * sp
@@ -151,7 +152,8 @@ def sigmoid_bipolar_prime(z):
 
 def load_data_from_csv(file_path):
     #dataframe
-    data = pd.read_csv(file_path)
+    data = pd.read_csv(file_path, index_col=0)
+    return data
 
 def extract_from_dataframe(dataframe):
     """Returns network's input and output layer dimentions
@@ -164,8 +166,32 @@ def extract_from_dataframe(dataframe):
             unique_list.append(value)
     return x-1, len(unique_list)
 
-dataframe_treningowy
-dataframe_testowy
+# dataframe_treningowy
+# dataframe_testowy
 
 if __name__=="__main__":
-    network=Network([2,3,1])
+    data = load_data_from_csv('iris.csv')
+    input_layers, output_layers = extract_from_dataframe(data)
+
+    # shuffling dataframe
+    data = data.sample(frac=1).reset_index(drop=True)
+
+    # dividing into training and test collections
+    row_num = data.shape[0]
+    col_num = data.shape[1]
+    pivot = math.floor(row_num*0.67)
+    dataframe_treningowy = data.iloc[0:pivot]
+    dataframe_testowy = data.iloc[pivot:row_num]
+
+    # converting into array of tuples
+    treningowy = [(tuple(x), y) for x, y in \
+        zip(dataframe_treningowy.iloc[:, 0:col_num-1].itertuples(index=None, name=None), \
+        dataframe_treningowy.iloc[:, col_num-1])]
+    testowy = [(tuple(x), y) for x, y in \
+        zip(dataframe_testowy.iloc[:, 0:col_num-1].itertuples(index=None, name=None), \
+        dataframe_testowy.iloc[:, col_num-1])]
+
+    print(treningowy)
+    print(testowy)
+    # network=Network([input_layers, 3, output_layers])
+    # network.SGD(treningowy, 20, pivot, 1, test_data=testowy)
