@@ -195,3 +195,6 @@ if __name__=="__main__":
     print(testowy)
     # network=Network([input_layers, 3, output_layers])
     # network.SGD(treningowy, 20, pivot, 1, test_data=testowy)
+
+    dataset=load_data_from_csv("iris.csv")
+    print(dataset)
